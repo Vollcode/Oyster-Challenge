@@ -3,7 +3,7 @@ require "oystercard"
 describe Oystercard do
 
    it { expect(subject).to respond_to(:balance) }
-   it { expect(subject).to respond_to(:top_up).with(1).argument}
+   it { expect(subject).to respond_to(:top_up, :deduct).with(1).argument}
 
    describe "#balance" do
 
@@ -19,7 +19,17 @@ describe Oystercard do
      end
 
      it "should limit the top_up amount to £90" do
-       expect{ subject.top_up 91 }.to raise_error "Top up limit is £90"
+       max_balance = Oystercard::MAXIMUM_BALANCE
+       subject.top_up max_balance
+       expect{ subject.top_up 1 }.to raise_error "Top up limit is #{max_balance}"
      end
    end
+
+   describe "#deduct" do
+
+    it "should deduct a fare" do
+      subject.top_up 20
+      expect(subject.deduct(6)).to eq 14
+    end
+  end
 end
