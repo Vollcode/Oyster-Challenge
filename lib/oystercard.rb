@@ -8,6 +8,7 @@ class Oystercard
   def initialize
     @balance = 0
     @in_use = false
+    @history = []
   end
 
   def top_up money
@@ -23,15 +24,21 @@ class Oystercard
     fail "You have insufficient funds" unless balance > 1
     @entry = station
     @in_use = true
+    @history << station
   end
 
-  def touch_out
+  def touch_out(station)
     deduct(STANDARD_FARE)
     @entry = nil
+    @history << station
   end
 
   def travelled_from
     @entry
+  end
+
+  def history
+    @history
   end
 
   private

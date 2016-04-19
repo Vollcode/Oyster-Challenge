@@ -57,8 +57,20 @@ require "./lib/station.rb"
 # As a customer
 # I need to know where I've travelled from
 
+# oyster = Oystercard.new
+# station = Station.new
+# oyster.top_up(50)
+# oyster.touch_in(station)
+#fail "did not record original station" unless oyster.travelled_from == station
+
+# In order to know where I have been
+# As a customer
+# I want to see to all my previous trips
+
 oyster = Oystercard.new
 station = Station.new
+station2 = Station.new
 oyster.top_up(50)
 oyster.touch_in(station)
-fail "did not record original station" unless oyster.travelled_from == station
+oyster.touch_out(station2)
+fail "doesn't return history" unless oyster.history == [station, station2]

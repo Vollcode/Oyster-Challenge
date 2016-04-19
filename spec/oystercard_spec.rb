@@ -2,11 +2,12 @@ require "oystercard"
 
 describe Oystercard do
 
-   it { expect(subject).to respond_to(:balance, :in_journey?, :touch_out, :travelled_from) }
-   it { expect(subject).to respond_to(:top_up, :touch_in).with(1).argument}
+   it { expect(subject).to respond_to(:balance, :in_journey?, :travelled_from) }
+   it { expect(subject).to respond_to(:top_up, :touch_in, :touch_out).with(1).argument}
 
    let(:weeksfare) {50}
    let(:station) { double(:station)}
+   let(:station2) { double(:station2)}
   #  let(:oyster) { double(:oyster, top_up: 50)}
 
    describe "#balance" do
@@ -49,14 +50,14 @@ describe Oystercard do
 
   describe "#touch_out" do
     it "should touch out" do
-      subject.touch_out
+      subject.touch_out(station)
       expect(subject.in_journey?).to eq false
     end
 
     it "should charge a fee on touch out" do
       subject.top_up(weeksfare)
       subject.touch_in (station)
-      expect{subject.touch_out}.to change{subject.balance}.by(-Oystercard::STANDARD_FARE)
+      expect{subject.touch_out(station)}.to change{subject.balance}.by(-Oystercard::STANDARD_FARE)
     end
   end
 
@@ -65,6 +66,15 @@ describe Oystercard do
       subject.top_up(weeksfare)
       subject.touch_in station
       expect(subject.travelled_from).to eq station
+    end
+  end
+
+  describe '#history' do
+    it 'should show the entry and the exit stations' do
+      subject.top_up(weeksfare)
+      subject.touch_in(station)
+      subject.touch_out(station2)
+      expect(subject.history).to eq [station, station2]
     end
   end
 end
