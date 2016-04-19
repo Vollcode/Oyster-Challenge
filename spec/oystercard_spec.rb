@@ -3,8 +3,8 @@ require "oystercard"
 describe Oystercard do
 
    it { expect(subject).to respond_to(:balance, :in_journey?, :touch_in, :touch_out) }
-   it { expect(subject).to respond_to(:top_up, :deduct).with(1).argument}
-
+   it { expect(subject).to respond_to(:top_up).with(1).argument}
+   let(:weeksfare) {50}
    describe "#balance" do
 
      it "should be 0 when new oyster created by default" do
@@ -25,14 +25,6 @@ describe Oystercard do
      end
    end
 
-   describe "#deduct" do
-
-    it "should deduct a fare" do
-      subject.top_up 20
-      expect(subject.deduct(6)).to eq 14
-    end
-  end
-
   describe "#in_journey" do
     it "should not be in_journey when created" do
       expect(subject).not_to be_in_journey
@@ -41,15 +33,26 @@ describe Oystercard do
 
   describe "#touch_in" do
     it "should touch in" do
+      subject.top_up(weeksfare)
       subject.touch_in
       expect(subject.in_journey?).to eq true
+    end
+
+    it 'should not allow to touch in if you have insufficient funds' do
+      expect{subject.touch_in}.to raise_error("You have insufficient funds")
     end
   end
 
   describe "#touch_out" do
     it "should touch out" do
       subject.touch_out
-      expect(subject.in_journey).to eq false
+      expect(subject.in_journey?).to eq false
+    end
+
+    it "should charge a fee on touch out" do
+      subject.top_up(weeksfare)
+      subject.touch_in
+      expect{subject.touch_out}.to change{subject.balance}.by(-Oystercard::STANDARD_FARE)
     end
   end
 end
