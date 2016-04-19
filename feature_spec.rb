@@ -1,7 +1,6 @@
 require "./lib/oystercard.rb"
+require "./lib/station.rb"
 
-oyster = Oystercard.new
-<<<<<<< HEAD
 # fail "new oyster doesn't have £0 on it" unless oyster.balance == 0
 #
 # # In order to keep using public transport
@@ -22,8 +21,7 @@ oyster = Oystercard.new
 # # I need my fare deducted from my card
 #  oyster.deduct(6)
 #  fail "did not deduct £6" unless oyster.balance == (balance - 6)
-=======
-fail "new oyster doesn't have £0 on it" unless oyster.balance == 0
+# fail "new oyster doesn't have £0 on it" unless oyster.balance == 0
 
 # In order to keep using public transport
 # As a customer
@@ -53,3 +51,14 @@ fail "new oyster doesn't have £0 on it" unless oyster.balance == 0
 
 # oyster.touch_out
 # fail "did not reduce fare" unless oyster.balance -= minimum fare
+
+
+# In order to pay for my journey
+# As a customer
+# I need to know where I've travelled from
+
+oyster = Oystercard.new
+station = Station.new
+oyster.top_up(50)
+oyster.touch_in(station)
+fail "did not record original station" unless oyster.travelled_from == station

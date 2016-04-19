@@ -2,9 +2,13 @@ require "oystercard"
 
 describe Oystercard do
 
-   it { expect(subject).to respond_to(:balance, :in_journey?, :touch_in, :touch_out) }
-   it { expect(subject).to respond_to(:top_up).with(1).argument}
+   it { expect(subject).to respond_to(:balance, :in_journey?, :touch_out, :travelled_from) }
+   it { expect(subject).to respond_to(:top_up, :touch_in).with(1).argument}
+
    let(:weeksfare) {50}
+   let(:station) { double(:station)}
+  #  let(:oyster) { double(:oyster, top_up: 50)}
+
    describe "#balance" do
 
      it "should be 0 when new oyster created by default" do
@@ -34,12 +38,12 @@ describe Oystercard do
   describe "#touch_in" do
     it "should touch in" do
       subject.top_up(weeksfare)
-      subject.touch_in
+      subject.touch_in station
       expect(subject.in_journey?).to eq true
     end
 
     it 'should not allow to touch in if you have insufficient funds' do
-      expect{subject.touch_in}.to raise_error("You have insufficient funds")
+      expect{subject.touch_in(station)}.to raise_error("You have insufficient funds")
     end
   end
 
@@ -51,8 +55,16 @@ describe Oystercard do
 
     it "should charge a fee on touch out" do
       subject.top_up(weeksfare)
-      subject.touch_in
+      subject.touch_in (station)
       expect{subject.touch_out}.to change{subject.balance}.by(-Oystercard::STANDARD_FARE)
+    end
+  end
+
+  describe "#travelled_from?" do
+    it "should return station you touched in" do
+      subject.top_up(weeksfare)
+      subject.touch_in station
+      expect(subject.travelled_from).to eq station
     end
   end
 end
