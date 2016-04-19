@@ -49,7 +49,7 @@ describe Oystercard do
   describe "#touch_out" do
     it "should touch out" do
       subject.touch_out
-      expect(subject.in_journey).to eq false
+      expect(subject.in_journey?).to eq false
     end
   end
 end
