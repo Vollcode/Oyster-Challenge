@@ -1,3 +1,4 @@
+require_relative "journey"
 class Oystercard
 
   MAXIMUM_BALANCE = 90
@@ -20,7 +21,7 @@ class Oystercard
     !!entry
   end
 
-  def touch_in station
+  def touch_in station#(name, zone)
     fail "You have insufficient funds" unless balance > 1
     @entry = station
     @in_use = true
@@ -46,5 +47,4 @@ class Oystercard
   def deduct money
     @balance -= money
   end
-
 end

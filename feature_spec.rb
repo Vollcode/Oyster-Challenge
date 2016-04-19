@@ -67,10 +67,14 @@ require "./lib/station.rb"
 # As a customer
 # I want to see to all my previous trips
 
-oyster = Oystercard.new
-station = Station.new
-station2 = Station.new
-oyster.top_up(50)
-oyster.touch_in(station)
-oyster.touch_out(station2)
-fail "doesn't return history" unless oyster.history == [station, station2]
+# oyster = Oystercard.new
+# station = Station.new
+# station2 = Station.new
+# oyster.top_up(50)
+# oyster.touch_in(station)
+# oyster.touch_out(station2)
+# fail "doesn't return history" unless oyster.history == [station, station2]
+
+# In order to be charged correctly
+# As a customer
+# I need a penalty charge deducted if I fail to touch in or out
