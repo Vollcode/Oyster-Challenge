@@ -78,3 +78,17 @@ require "./lib/station.rb"
 # In order to be charged correctly
 # As a customer
 # I need a penalty charge deducted if I fail to touch in or out
+
+oyster = OysterCard.new
+station1 = Station.new('Hoxton', 4)
+station2 = Station.new('Liverpool Street', 1)
+
+oyster.top_up(80)
+
+oyster.touch_in(station1)
+oyster.touch_out(station2)
+
+fail "Jouney not stored :( " unless oyster.journeys.last.trip == {:entry_station => station1, :exit_station => station2}
+
+
+

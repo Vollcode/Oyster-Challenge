@@ -1,3 +1,5 @@
+require_relative 'journey'
+
 class OysterCard
 
   DEFAULT_BALANCE = 0
@@ -19,12 +21,15 @@ class OysterCard
 
   def touch_in(station)
     fail "Insufficient balance!" if insufficient_balance?
-    record_start_station(station)
+    # check if @current_journey has an 'exit_station', if not then deduct penalty
+    @current_journey = Journey.new(station)
   end
 
   def touch_out(station)
+    # check if @current_journey == nil (i.e. haven't touched it)
+    @current_journey.finish(station)
+    @journeys.push(@current_journey)
     deduct_fare(MINIMUM_FARE)
-    record_end_station(station)
   end
 
   def in_journey?

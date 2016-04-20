@@ -6,13 +6,15 @@ class Journey
     @entry = (station != nil ? true : false)
   end
 
-  def finish
+  def finish(station)
+    @trip[:exit_station] = station
   end
 
   def fare
   end
 
   def complete?
+    trip.include?(:exit_station) && trip.values.include?(nil)
   end
 
 end
