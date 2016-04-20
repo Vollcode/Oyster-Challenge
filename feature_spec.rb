@@ -86,9 +86,12 @@ station2 = Station.new('Liverpool Street', 1)
 oyster.top_up(80)
 
 oyster.touch_in(station1)
+puts oyster.current_journey.trip
+puts
+
 oyster.touch_out(station2)
+puts oyster.journeys
+puts
+puts oyster.journeys.last.trip
 
-fail "Jouney not stored :( " unless oyster.journeys.last.trip == {:entry_station => station1, :exit_station => station2}
-
-
-
+fail "Journey not stored :( " unless oyster.journeys.last.trip == {:entry_station => station1, :exit_station => station2}

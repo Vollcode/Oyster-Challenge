@@ -14,7 +14,7 @@ class Journey
   end
 
   def complete?
-    trip.include?(:exit_station) && trip.values.include?(nil)
+    trip.include?(:exit_station) && !(trip.values.include?(nil))
   end
 
 end
