@@ -5,6 +5,7 @@ class Journey
 
   def initialize(entry_station)
     @entry_station = entry_station
+    @journey = {}
   end
 
   def in_journey?
@@ -14,6 +15,7 @@ class Journey
   def end(station)
     @exit_station = station
     @exit = {exit_station: station}
+    @journey = @entry_station.merge! @exit
   end
 
   def complete?

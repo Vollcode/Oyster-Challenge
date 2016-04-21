@@ -13,8 +13,8 @@ class JourneyLog
   end
 
   def finish(station)
-    @current_journey.journey.merge!(@current_journey.end(station))
-    @journeys << @current_journey
+    @current_journey.end(station)
+    @journeys << @current_journey.journey
 
   end
 
