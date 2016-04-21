@@ -6,7 +6,7 @@ describe Journey do
   let(:exitstation) {double :exitstation}
   let(:journey){ {entry_station: entrystation, exit_station: exitstation} }
   let(:entry_hash){ {entry_station: entrystation} }
-  subject(:journey_sub) { described_class.new(:entry_hash) }
+  subject(:journey_sub) { described_class.new({entry_station: entrystation}) }
 
     describe '#journey' do
       it "stores entry and exit stations in a hash" do
@@ -29,34 +29,24 @@ describe Journey do
       expect(subject.journey[:exit_station]).to eq exitstation
     end
 
-    describe '#in_journey?' do
-      it "returns false if we are not in a journey" do
-        expect(subject.in_journey?).to eq false
+    describe '#complete?' do
+      it "returns false if our journey is not completed" do
+        expect(subject.complete?).to eq false
       end
 
-      it "returns true on in_journey" do
-        expect(subject.in_journey?).to eq true
-      end
-
-      it "remembers the station after it touched in" do
-        expect(subject.journey[:entry_station]).to eq entrystation
+      it "returns true on completion" do
+        subject.end(exitstation)
+        expect(subject.complete?).to eq true
       end
     end
 
     describe "#fare" do
       it "returns minimum fare" do
-        subject.entry_station(entrystation)
         subject.end(exitstation)
         expect(subject.fare).to eq 1
       end
-      it "returns 6 if entry only" do
-        subject.entry_station(entrystation)
-        subject.entry_station(entrystation)
+      it "returns 6 if journey not complete" do
         expect(subject.fare).to eq Journey::PENALTY_FARE
-      end
-      it "returns 6 if exit only" do
-        subject.end(exitstation)
-        expect(subject.fare).to eq Journey::PENALTY_FARE
-      end
+      endgit 
     end
 end

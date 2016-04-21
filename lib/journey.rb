@@ -6,6 +6,7 @@ class Journey
   def initialize(entry_station)
     @entry_station = entry_station
     @journey = {}
+    @complete = false
   end
 
   def in_journey?
@@ -16,10 +17,11 @@ class Journey
     @exit_station = station
     @exit = {exit_station: station}
     @journey = @entry_station.merge! @exit
+    @complete = true
   end
 
   def complete?
-  @journey.keys[0] == :entry_station && @journey.keys[1] == :exit_station
+    @complete
   end
 
   def fare
