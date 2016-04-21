@@ -18,16 +18,19 @@ describe JourneyLog do
     end
   end
 
-  describe "#current_journey" do
-
-  end
-
   describe "#finish" do
-
+    it "adds an exit station to journeys" do
+      subject.start(station)
+      subject.finish(station)
+      expect(subject.journeys).to include station
+    end
   end
 
   describe "#journeys" do
-
+    it "records a journey" do
+      allow(journey_class).to receive(:new).and_return journey
+      subject.start(station)
+      expect(subject.journeys).to include journey
+    end
   end
-
 end
