@@ -2,9 +2,10 @@ require "journey_log"
 
 describe JourneyLog do
 
-  let(:journey_class) { double :journey_class, new: journey }
+
   let(:journey) { double :journey }
   let(:station) { double :station }
+  let(:journey_class) { double :journey_class, new: journey }
   subject { JourneyLog.new journey_class }
 
   it "initializes with a journey_class" do
@@ -13,7 +14,7 @@ describe JourneyLog do
 
   describe "#start" do
     it "starts a new journey with an entry station" do
-      expect(journey_class).to receive(:new).with(entry_station: station)
+      expect(journey_class).to receive(:new).with(station)
       subject.start(station)
     end
   end
@@ -22,7 +23,7 @@ describe JourneyLog do
     it "adds an exit station to journeys" do
       subject.start(station)
       subject.finish(station)
-      expect(subject.journeys).to include station
+      expect(subject.journeys).to include journey
     end
   end
 
