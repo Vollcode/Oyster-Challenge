@@ -47,6 +47,6 @@ describe Journey do
       end
       it "returns 6 if journey not complete" do
         expect(subject.fare).to eq Journey::PENALTY_FARE
-      endgit 
+      end
     end
 end
