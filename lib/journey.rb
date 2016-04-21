@@ -3,7 +3,7 @@ class Journey
 
   PENALTY_FARE = 6
 
-  def initialize
+  def initialize(entry_station)
     @journey = {}
   end
 
